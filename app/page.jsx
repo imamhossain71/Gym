@@ -1,19 +1,24 @@
 import Link from 'next/link'
-                  {
-                    // Map icon string to lucide component and render as JSX
-                    (() => {
-                      const ICONS = {
-                        Users,
-                        CalendarCheck,
-                        CreditCard,
-                        Activity,
-                        Dumbbell,
-                        Star,
-                      };
-                      const Icon = ICONS[f.icon];
-                      return Icon ? <Icon className="h-6 w-6" /> : null;
-                    })()
-                  }
+import {
+  Dumbbell,
+  Users,
+  CalendarCheck,
+  CreditCard,
+  Activity,
+  Star,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { ThemeToggle } from '@/components/shared/theme-toggle'
+
+const FEATURES = [
+  {
+    icon: 'Users',
+    title: 'Member Management',
+    desc: 'Registrations, plans, ID cards & status tracking.',
+  },
+  {
+    icon: 'CalendarCheck',
     title: 'Attendance',
     desc: 'Manual or QR check-in with monthly reports.',
   },
@@ -38,6 +43,8 @@ import Link from 'next/link'
     desc: 'Rate trainers and the gym with moderation.',
   },
 ]
+
+const ICON_MAP = { Users, CalendarCheck, CreditCard, Activity, Dumbbell, Star }
 
 export default function Home() {
   return (
@@ -87,36 +94,20 @@ export default function Home() {
 
       <section className='container mx-auto px-6 py-20'>
         <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-          {FEATURES.map((f) => (
-            <Card key={f.title}>
-              <CardContent className='p-6'>
-                <div className='mb-4 inline-flex rounded-lg bg-primary/10 p-3 text-primary'>
-                  {
-                    // Map icon string to lucide component
-                    {
-                      Users,
-                      CalendarCheck,
-                      CreditCard,
-                      Activity,
-                      Dumbbell,
-                      Star,
-                    }[f.icon]
-                      ? {
-                          Users,
-                          CalendarCheck,
-                          CreditCard,
-                          Activity,
-                          Dumbbell,
-                          Star,
-                        }[f.icon]({ className: 'h-6 w-6' })
-                      : null
-                  }
-                </div>
-                <h3 className='text-lg font-semibold'>{f.title}</h3>
-                <p className='mt-1 text-sm text-muted-foreground'>{f.desc}</p>
-              </CardContent>
-            </Card>
-          ))}
+          {FEATURES.map((f) => {
+            const Icon = ICON_MAP[f.icon]
+            return (
+              <Card key={f.title}>
+                <CardContent className='p-6'>
+                  <div className='mb-4 inline-flex rounded-lg bg-primary/10 p-3 text-primary'>
+                    {Icon ? <Icon className='h-6 w-6' /> : null}
+                  </div>
+                  <h3 className='text-lg font-semibold'>{f.title}</h3>
+                  <p className='mt-1 text-sm text-muted-foreground'>{f.desc}</p>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
       </section>
 

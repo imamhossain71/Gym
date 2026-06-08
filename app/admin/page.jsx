@@ -76,7 +76,14 @@ export default async function AdminDashboard() {
 
   if (user.gymId) {
     await connectDB()
-    const gymObjectId = mongoose.Types.ObjectId(user.gymId)
+    let gymObjectId = user.gymId
+    try {
+      // ensure we pass an ObjectId for aggregation when appropriate
+      gymObjectId = new mongoose.Types.ObjectId(user.gymId)
+    } catch (e) {
+      // leave as string — mongoose will attempt to cast where possible
+      gymObjectId = user.gymId
+    }
 
     // Revenue: last 6 months by YYYY-MM
     const sixMonthsAgo = new Date()
